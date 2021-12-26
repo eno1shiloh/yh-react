@@ -15,8 +15,19 @@ services:
       # map current working directory "." 
       # to app folder. Sampe as Dockerfile.dev
       - "C:/GitRepos/yh-react:/app"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - COMPOSE_CONVERT_WINDOWS_PATHS=true
-    env_file:
-      - ./environment.env
+    # environment:
+    #   - CHOKIDAR_USEPOLLING=true
+    #   - COMPOSE_CONVERT_WINDOWS_PATHS=true
+    # env_file:
+    #   - ./environment.env
+  # we can setup a second service in the compose. 
+  # In this case, we want to run npm run test to test the app2 
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:  
+      - /app/node_modules
+      - .:/app
+    command: ['npm', 'run','test']
+    

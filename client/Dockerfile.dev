@@ -1,0 +1,22 @@
+#To build a specified dockerfile run command as below
+#Docker build -f Dockerfile.dev .
+# Dont miss the '.' at the end.
+
+# We can append command after docer run, below is an example to run test.    
+#Docker run -it {{image id}} npm run test, however this wont have volumn.
+# So we may first docker-compose a volumned serivce, then use second CMD 
+# docker exec -it {{container id}} npm run test
+# this reuse the existing container. 
+
+
+FROM node:16-alpine
+
+WORKDIR '/app'
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+CMD [ "npm", "run", "start" ]
