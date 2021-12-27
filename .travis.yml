@@ -2,11 +2,11 @@ sudo: required
 services: 
   - docker
 
-before_install:
-  - docker build -t hongyuan010/yh-react -f ./client/Dockerfile.dev ./client
+# before_install:
+#   - docker build -t hongyuan010/yh-react-test -f ./client/Dockerfile.dev ./client
 
-script:
-  - docker run -e CI=true USERNAME/react-test npm test
+# script:
+#   - docker run -e CI=true hongyuan010/yh-react-test npm test
 
 after_success:
   - docker build -t hongyuan010/multi-client ./client
