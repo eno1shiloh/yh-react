@@ -3,10 +3,11 @@ services:
   - docker
 
 before_install:
-  - docker build -t hongyuan010/yh-react-test -f ./client/Dockerfile.dev ./client
+  # - docker build -t hongyuan010/react-test -f ./client/Dockerfile.dev ./client
+  - echo "Testing Docker Hub credentials"
 
 script:
-  - docker run -e CI=true hongyuan010/yh-react-test npm test
+  - docker ps -a
 
 after_success:
   - docker build -t hongyuan010/multi-client ./client
