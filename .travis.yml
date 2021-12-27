@@ -13,4 +13,13 @@ after_success:
   - docker build -t hongyuan010/multi-nginx ./nginx
   - docker build -t hongyuan010/multi-server ./server
   - docker build -t hongyuan010/multi-worker ./worker
+  # login docker cli. config in travis with env setting first
+  - echo "$Docker_PW" | docker login -u "$Docker_ID" --password-stdin
+  # then push build to docker hub
+  - docker push hongyuan010/multi-client
+  - docker push hongyuan010/multi-nginx
+  - docker push hongyuan010/multi-server
+  - docker push hongyuan010/multi-worker
+
+
 
