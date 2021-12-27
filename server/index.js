@@ -2,25 +2,26 @@
 The (express) server app will connect to postgres to save any seen index. 
 Also, calls redis for value of and index.
 */
-const keys = require('./keys');
+const keys = require("./keys");
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+// Express App Setup
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-//PG === Postgres
-const { pool } = require('pg');
-const pgClient = new pool({
-    user: keys.pgUser,
-    host: keys.pgHost,
-    database: keys.pgDatabase,
-    password: keys.pgPassword,
-    port: keys.pgPort
-})
+// Postgres Client Setup
+const { Pool } = require("pg");
+const pgClient = new Pool({
+  user: keys.pgUser,
+  host: keys.pgHost,
+  database: keys.pgDatabase,
+  password: keys.pgPassword,
+  port: keys.pgPort,
+});
 
 pgClient.on('error', () =>
     console.log('Lost PG Connection')
@@ -46,30 +47,38 @@ const redisClient = redis.createClient({
 const redisPublisher = redisClient.duplicate();
 
 // Express route handlers
-app.get('/api/', (req, res) => {
+app.get('/', (req, res) => {
     res.send("Hi");
 })
 
-app.get('/api/values/all', async (req, res) => {
+app.get('/values/all', async (req, res) => {
+    console.log('select all from values');
     const values = await pgClient.query("SELECT * FROM values");
+    console.log(values.rows);
     res.send(values.rows);
 });
 
-app.get('/api/values/current', async (req, res) => {
+app.get('/values/current', async (req, res) => {
+    console.log('select current');
     redisClient.hgetall('values', (err, values) => {
+        console.log('select current = ' + values);
         res.send(values);
     });
 });
 
-app.post('/api/values', async (req, res) => {
+app.post('/values', async (req, res) => {
     const index = req.body.index;
+    console.log('post index = ' + index);
+
     if (parseInt(index) > 40)
         return res.status(422).send('Index too high');
 
     redisClient.hset('values', index, 'Nothing yet');
     redisPublisher.publish('insert', index);
 
-    pgClient.query("INSERT INTO values(number) VALUES($1)", [index]);
+    var added = pgClient.query("INSERT INTO values(number) VALUES($1)", [index]);
+
+    console.log(added);
 
     res.send({ working: true });
 })
