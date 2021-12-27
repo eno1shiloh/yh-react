@@ -23,10 +23,12 @@ function fib(index) {
 
 
 sub.on('message', (channel, message) => {
+    console.log('work message = ' + message);
     // Redis HSET command is used to set field in the hash stored at the key to value.
     // If the key does not exist, a new key holding a hash is created. 
     // If the field already exists in the hash, it is overwritten.
     redisClient.hset('values', message, fib(parseInt(message)));
+    console.log(redisClient.hgetall('values'))
 })
 
 //listen to any insert event for redisClient

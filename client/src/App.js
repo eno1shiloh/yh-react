@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
+        <header>
           <img src={logo} className="App-logo" alt="logo" />
           <p>Hello World! Hi Yuan!</p>
           <Link to="/">Home</Link>

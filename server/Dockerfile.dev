@@ -1,3 +1,19 @@
+
+# FROM node:14.14.0-alpine as debug
+
+# WORKDIR '/app'
+
+# COPY package.json .
+
+# RUN npm install
+# RUN npm install -g nodemon
+
+# COPY . .
+
+# ENTRYPOINT [ "nodemon", "--inspect=0.0.0.0", "./index.js" ]
+
+
+#FROM node:14.14.0-alpine as prod
 FROM node:14.14.0-alpine
 
 WORKDIR '/app'

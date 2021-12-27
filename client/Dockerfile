@@ -8,21 +8,19 @@
 FROM node:16-alpine as builder
 
 WORKDIR '/app'
-
 COPY package.json .
-
 RUN npm install 
-
 COPY . .
 
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "build" ]
 
 # the build result will be @ /app/build
 
 # Use nginx to run app. 
 FROM nginx 
+EXPOSE 3000
  
 # refer to docker hub nginx: https://hub.docker.com/_/nginx 
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/build /usr/share/nginx/html
-
 
