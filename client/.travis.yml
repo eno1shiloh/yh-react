@@ -1,0 +1,20 @@
+# travis for single container app
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  # the application name we created in AWS Elastic Beanstalk
+  app: "YH_React"
+  # env is also from aws EB application environment
+  env: "Yhreact-env"
+  # find it from AWS s3, aws create this for us when create EB application
+  bucket_name: "elasticbeanstalk-us-east-2-674570223502"
+  bucket_path: "YH_React"
+  # this indicate we only push to EB when push changes to Master branch
+  on: 
+    branch: master
+  # create IAM user for travis only, assign proporal role and get id and key
+  # create app environet varibales in travis ci setting, put it here. 
+  access_key_id: $AWS_ID
+  secret_access_key:
+    secure: "$AWS_Key"
