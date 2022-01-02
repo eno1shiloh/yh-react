@@ -1,5 +1,5 @@
 # multi stages build process by use multiple base images.
-# build phase and run phase
+# build phase and run phase.
 
 # by doing a multi stage build, the host container "nginx" dont need 
 # anything from previous stage. In the case, we dont need all the node_modules, packages, etc
