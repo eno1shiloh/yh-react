@@ -1,3 +1,4 @@
+# this is the compose file for single container. _bak it.
 version: '3.8'
 services:
   #name for the app not necessary to be web, can be anything

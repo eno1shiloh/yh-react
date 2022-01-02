@@ -1,5 +1,5 @@
 sudo: required
-services: 
+services:
   - docker
 
 before_install:
@@ -21,6 +21,3 @@ after_success:
   - docker push hongyuan010/multi-nginx
   - docker push hongyuan010/multi-server
   - docker push hongyuan010/multi-worker
-
-
-
