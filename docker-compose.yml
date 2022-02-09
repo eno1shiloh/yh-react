@@ -1,3 +1,4 @@
+# docker-compose up # to run compose 
 version: '3'
 
 services:
@@ -17,7 +18,7 @@ services:
       - ./server:/app
     environment:
       - REDIS_HOST=redis
-      # find it from docker hub redis documentation, we could also change it.
+      # find REDIS_PORT from docker hub redis documentation, we could also change it.
       - REDIS_PORT=6379
       - PGUSER=postgres
       - PGHOST=postgres
@@ -51,5 +52,5 @@ services:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - 3050:80
+      - 4050:80
       - 9229:922
